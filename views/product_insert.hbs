@@ -1,0 +1,73 @@
+<div class="row">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8">
+        <h1>Thêm mới sản phẩm</h1>
+        <form role="form" action="/san-pham" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label>Name</label>
+                <input class="form-control" onchange="validation()" class="form-control" id="name" type="text"
+                    name="name">
+            </div>
+            <div class="form-group">
+                <label>Price</label>
+                <input class="form-control" onchange="validation()" class="form-control" id="price" type="number"
+                    name="price">
+            </div>
+            <div class="form-group">
+                <label>Quantity</label>
+                <input class="form-control" onchange="validation()" class="form-control" id="quantity" type="number"
+                    name="quantity">
+            </div>
+            <div class="form-group">
+                <label>Image</label>
+                <input onchange="onChangeFile();" type="file" id="image-file" name="image">
+                <img style="display: none;" src="" id="image-view" width="200" height="200" />
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea class="form-control" rows="3" name="description"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Category</label>
+                <select class="form-control" name="category_id">
+                    {{#each categories}}
+                    <option value="{{this._id}}">{{this.name}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Released</label>
+                <input class="form-control" onchange="validation()" id="released" type="date" name="released">
+            </div>
+            <button type="submit" id="submit" disabled class="btn btn-primary">Submit</button>
+            <button type="reset" class="btn btn-success">Reset</button>
+        </form>
+    </div>
+    <div class="col-lg-2"></div>
+</div>
+
+
+<script>
+    const validation = () => {
+        const name = document.getElementById('name').value;
+        const price = document.getElementById('price').value;
+        const quantity = document.getElementById('quantity').value;
+        const released = document.getElementById('released').value;
+        const submit = document.getElementById('submit');
+
+        if (!name || name.trim().length == 0) {
+            submit.disabled = true;
+        } else {
+            submit.disabled = false;
+        }
+    }
+    const onChangeFile = () => {
+        const file = document.getElementById('image-file').files[0];
+        const reader = new FileReader();
+        reader.onload = e => {
+            document.getElementById('image-view').src = e.target.result;
+            document.getElementById('image-view').style.display = 'block';
+        }
+        reader.readAsDataURL(file);
+    }
+</script>
